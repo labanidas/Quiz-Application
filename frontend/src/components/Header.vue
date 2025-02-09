@@ -1,13 +1,13 @@
 <script setup>
-import { onMounted } from 'vue';
-import { useApiStore } from '@/store/useApiStore'; 
+// import { onMounted } from 'vue';
+// import { useApiStore } from '@/store/useApiStore'; 
 
-const apiStore = useApiStore(); 
+// const apiStore = useApiStore(); 
 
 
-onMounted(() => {
-  apiStore.fetchMessage(); 
-});
+// onMounted(() => {
+//   apiStore.fetchMessage(); 
+// });
 </script>
 
 <template>
@@ -15,7 +15,7 @@ onMounted(() => {
     <img src="@/assets/logo2.png" alt="QuizMaster Logo" class="h-12 mr-4" />
     <h1 class="text-xl font-semibold">QuizMaster</h1>
   </header>
-  <h1>{{ apiStore.message }}</h1> 
+  <!-- <h1>{{ apiStore.message }}</h1>  -->
 </template>
 
 <script>
