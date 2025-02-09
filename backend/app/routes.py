@@ -1,7 +1,8 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from app.models import create_user, find_user_by_email
-from app.utils import is_valid_email, is_valid_password, create_response
+from app.utils import is_valid_email, is_valid_password, create_response, map_category_name
 from app import mongo, bcrypt
+import requests
 
 
 main = Blueprint('main', __name__)
@@ -61,3 +62,39 @@ def test_mongo():
         return {"message": "MongoDB connection successful", "collections": collections}, 200
     except Exception as e:
         return {"error": str(e)}, 500
+    
+
+@main.route('/fetch-questions', methods=['POST'])
+def fetch_questions():
+    # Get data from the frontend (JSON payload)
+    data = request.json
+    if not data:
+        return jsonify({"error": "Invalid input. Please provide data in JSON format."}), 400
+
+    # Validate the required fields
+    required_fields = ["amount", "category", "difficulty", "type"]
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"'{field}' is required."}), 400
+
+    # Map category name to category ID
+    category_id = map_category_name(data["category"])
+    if category_id is None:
+        return jsonify({"error": "Invalid category provided."}), 400
+
+    # Build the Open Trivia API URL
+    url = f"https://opentdb.com/api.php?amount={data['amount']}&category={category_id}&difficulty={data['difficulty']}&type={data['type']}"
+
+    try:
+        # Make a GET request to the Open Trivia API
+        response = requests.get(url)
+        response_data = response.json()
+
+        # Handle response from the API
+        if response_data["response_code"] != 0:
+            return jsonify({"error": "Failed to fetch questions from the API."}), 500
+
+        # Return the fetched questions to the user
+        return jsonify({"questions": response_data["results"]}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
