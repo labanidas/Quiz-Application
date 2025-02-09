@@ -9,3 +9,4 @@ MarkupSafe==2.1.2
 pymongo==4.7.3
 python-dotenv==0.21.1
 Werkzeug==2.2.3
+Flask-Cors
