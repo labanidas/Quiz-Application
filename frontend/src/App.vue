@@ -5,9 +5,11 @@ import Footer from './components/Footer.vue'
 
 <template>
   <Header />
-  <div class="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
+  <!-- <div class="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
     content
-  </div>
+  </div> -->
+  <!-- <router-link to="/register">Go to Register</router-link> -->
+  <router-view></router-view> 
   <Footer />
 </template>
 
