@@ -1,9 +1,11 @@
 from flask import Blueprint, request
 from app.models import create_user, find_user_by_email
 from app.utils import is_valid_email, is_valid_password, create_response
-from app import mongo
+from app import mongo, bcrypt
+
 
 main = Blueprint('main', __name__)
+
 
 @main.route('/')
 def home():
