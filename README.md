@@ -20,7 +20,7 @@ https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=boolean
 
 schema
 
-    USER = emailId, password, timestamps, 
+    USER = emailId, password, timestamps, role
     QUIZ = quizAPI, userId- foreignkey, (many-to many)
     result = quizID-foreign key, total_questions, correct_answers, percentage
 
