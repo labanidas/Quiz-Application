@@ -25,4 +25,17 @@ schema
     result = quizID-foreign key, total_questions, correct_answers, percentage
 
 
+backend/
+├── app/
+│   ├── __init__.py
+│   ├── routes.py
+│   ├── models.py
+│   ├── utils.py
+├── .env
+├── config.py
+├── requirements.txt
+└── run.py
+
+
+
 
