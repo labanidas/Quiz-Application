@@ -3,11 +3,13 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { axiosInstance } from "../lib/axios";
 import { useToast } from "vue-toast-notification";
+import { useRouter } from "vue-router";
 
 export const useAuthStore = defineStore("apiStore", () => {
+  const router = useRouter();
   const toast = useToast();
-  isSigningUp = ref(false);
-  isLogginIn = ref(false);
+  const isSigningUp = ref(false);
+  const isLogginIn = ref(false);
 
   const register = async (data) => {
     isSigningUp.value = true;
@@ -17,6 +19,7 @@ export const useAuthStore = defineStore("apiStore", () => {
         position: "top-right",
         timeout: 3000,
       });
+      router.push("/login");
     } catch (error) {
       toast.error(error.message || "Something went wrong!", {
         position: "top-right",
@@ -35,6 +38,7 @@ export const useAuthStore = defineStore("apiStore", () => {
         position: "top-right",
         timeout: 3000,
       });
+      router.push("/dashboard");
     } catch (error) {
       toast.error(error.message || "Something went wrong!", {
         position: "top-right",
@@ -47,7 +51,7 @@ export const useAuthStore = defineStore("apiStore", () => {
 
   return {
     isSigningUp,
-    isLoggingIn,
+    isLogginIn,
     register,
     login,
   };
