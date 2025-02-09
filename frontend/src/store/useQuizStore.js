@@ -16,7 +16,8 @@ export const useQuizStore = defineStore('apiStore', () => {
     isLoadingQuestions.value = true;
     try {
       const response = await axiosInstance.post('/fetch-questions', data); 
-      console.log(response.data);     
+      quiz_questions.value = response.data.questions;  
+      router.push("/quiz") 
     } catch (error) {
       toast.error(error.message || 'Something went wrong!', {
         position: 'top-right',
