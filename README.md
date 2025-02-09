@@ -3,6 +3,8 @@ https://platform.openai.com/docs/guides/speech-to-text?utm_source=chatgpt.com
 
 https://medium.com/towards-data-science/build-a-speech-to-text-web-app-using-node-js-210f8c054d79
 
+https://opentdb.com/
+
 https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=boolean
 
 {
