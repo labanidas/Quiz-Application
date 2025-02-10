@@ -6,6 +6,10 @@ import QuizExam from '@/pages/QuizExam.vue';
 
 const routes = [
   {
+    path: '/',
+    redirect: '/login', // Redirect home to login
+  },
+  {
     path: '/register', 
     name: 'Register',
     component: Register, 

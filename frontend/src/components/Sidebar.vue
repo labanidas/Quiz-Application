@@ -1,51 +1,81 @@
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const isOpen = ref(true);
+const router = useRouter();
+
+const toggleSidebar = () => {
+  isOpen.value = !isOpen.value;
+};
+</script>
+
 <template>
-    <div class="w-64 bg-gray-800 text-white h-full flex flex-col">
-      <div class="flex items-center justify-center p-6 border-b border-gray-700">
-        <h2 class="text-2xl font-bold">Dashboard</h2>
+  <div class="relative">
+    <!-- Sidebar -->
+    <div :class="isOpen ? 'w-64' : 'w-20'"
+      class="bg-gradient-to-b from-indigo-900 to-purple-800 text-white min-h-screen flex flex-col fixed top-0 left-0 shadow-xl transition-all duration-300">
+      
+      <!-- Sidebar Header with Stylish Icon -->
+      <div class="flex items-center justify-between p-4 border-b border-gray-700">
+        <div class="flex items-center">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/brainstorm-skill.png" alt="Logo" class="w-8 h-8" />
+          <span v-if="isOpen" class="ml-3 text-xl font-bold tracking-wide">QuizMaster</span>
+        </div>
+        <button @click="toggleSidebar"
+          class="text-gray-300 hover:text-white transition-all duration-300 p-2 rounded-full bg-gray-700 hover:bg-indigo-600">
+          <svg v-if="isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
       </div>
-  
-      <nav class="flex-1">
+
+      <!-- Sidebar Navigation -->
+      <nav class="flex-1 mt-4">
         <ul>
           <li>
-            <a href="#" class="flex items-center p-4 hover:bg-gray-700 transition duration-200">
-              <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 10h18M3 15h18M3 20h18"></path>
+            <router-link to="/dashboard" class="flex items-center p-4 hover:bg-indigo-700 transition duration-300 rounded-lg">
+              <svg class="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 10h18M3 15h18"></path>
               </svg>
-              <span class="ml-4">Dashboard</span>
-            </a>
+              <span v-if="isOpen" class="ml-4">Dashboard</span>
+            </router-link>
           </li>
           <li>
-            <a href="#" class="flex items-center p-4 hover:bg-gray-700 transition duration-200">
-              <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <a href="#" class="flex items-center p-4 hover:bg-indigo-700 transition duration-300 rounded-lg">
+              <svg class="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v12l7-4 7 4V3"></path>
               </svg>
-              <span class="ml-4">Reports</span>
+              <span v-if="isOpen" class="ml-4">Reports</span>
             </a>
           </li>
           <li>
-            <a href="#" class="flex items-center p-4 hover:bg-gray-700 transition duration-200">
-              <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <a href="#" class="flex items-center p-4 hover:bg-indigo-700 transition duration-300 rounded-lg">
+              <svg class="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2 2 4-4 6 6 8-8"></path>
               </svg>
-              <span class="ml-4">Settings</span>
+              <span v-if="isOpen" class="ml-4">Settings</span>
             </a>
           </li>
-          <!-- Add more items as needed -->
         </ul>
       </nav>
-  
+
+      <!-- Logout Button -->
       <div class="p-4 border-t border-gray-700">
-        <a href="#" class="flex items-center p-4 hover:bg-gray-700 transition duration-200">
-          <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <a href="#" class="flex items-center p-4 hover:bg-red-700 transition duration-300 rounded-lg">
+          <svg class="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5h6M9 12h6M9 19h6"></path>
           </svg>
-          <span class="ml-4">Logout</span>
+          <span v-if="isOpen" class="ml-4">Logout</span>
         </a>
       </div>
     </div>
-  </template>
-  
-  <style scoped>
-  /* Scoped styles for Sidebar */
-  </style>
-  
+  </div>
+</template>
+
+<style scoped>
+/* Optional custom styles */
+</style>
