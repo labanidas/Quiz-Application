@@ -81,14 +81,21 @@ def login():
     # Generate JWT token
     payload = {
         'emailId': str(user['emailId']),  # Include user emailId in the payload
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)  # Token expires in 1 hour
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)  # Token expires in 24 hour
     }
 
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
     # Set token in an HTTP-only cookie
     response = make_response(create_response("Login successful", 200, {"role": user["role"]}))
-    response.set_cookie('access_token', token, httponly=True, secure=True, max_age=datetime.timedelta(hours=1))
+    response.set_cookie(
+        key='access_token',
+        value=token,
+        httponly=True,  # Prevents JavaScript from accessing the cookie
+        secure=False,  # ❗ Set this to False for development (must be True for HTTPS in production)
+        samesite="Lax",  # Ensures the cookie is sent with same-site requests
+        max_age=60 * 60 * 24  # 1 day expiry
+    )
     
     return response
 
