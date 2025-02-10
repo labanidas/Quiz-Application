@@ -1,16 +1,43 @@
-from flask import Blueprint, request, jsonify
+import jwt
+import datetime
+from flask import Blueprint, request, jsonify,  make_response
 from app.models import create_user, find_user_by_email
 from app.utils import is_valid_email, is_valid_password, create_response, map_category_name
 from app import mongo, bcrypt
 import requests
+from bson import ObjectId
+
+SECRET_KEY = "your-secret-key"  
 
 
 main = Blueprint('main', __name__)
 
 
-@main.route('/')
-def home():
-    return create_response("Welcome to the Quiz App Backend!")
+@main.route('/auth-check', methods=['GET'])
+def checkAuth():
+    token = request.cookies.get('access_token')
+
+    if not token:
+        return jsonify({"error": "Token is missing"}), 401
+    
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        emailId = payload.get('emailId')
+        if not emailId:
+            return create_response("Email ID is missing in token", 400)
+        user = find_user_by_email(emailId)
+
+        if not user:
+            return create_response("User not found", 404)
+        
+        user_data = {key: str(value) if isinstance(value, ObjectId) else value for key, value in user.items()}
+
+        return create_response("User Authorized", 200, user_data)
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token has expired"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Invalid token"}), 401
 
 @main.route('/register', methods=['POST'])
 def register():
@@ -51,7 +78,20 @@ def login():
     if not user or not bcrypt.check_password_hash(user['password'], data['password']):
         return create_response("Invalid email or password", 401)
 
-    return create_response("Login successful", 200, {"role": user["role"]})
+    # Generate JWT token
+    payload = {
+        'emailId': str(user['emailId']),  # Include user emailId in the payload
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)  # Token expires in 1 hour
+    }
+
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+    # Set token in an HTTP-only cookie
+    response = make_response(create_response("Login successful", 200, {"role": user["role"]}))
+    response.set_cookie('access_token', token, httponly=True, secure=True, max_age=datetime.timedelta(hours=1))
+    
+    return response
+
 
 
 @main.route('/test-mongo')
@@ -66,6 +106,24 @@ def test_mongo():
 
 @main.route('/fetch-questions', methods=['POST'])
 def fetch_questions():
+    # Get token from cookies
+    token = request.cookies.get('access_token')
+
+    if not token:
+        return jsonify({"error": "Token is missing"}), 401
+
+    try:
+        # Decode the token to verify its validity
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+
+        # You can use the user_id from the payload for further processing if needed
+        emailId = payload['emailId']
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token has expired"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Invalid token"}), 401
+
     # Get data from the frontend (JSON payload)
     data = request.json
     if not data:
