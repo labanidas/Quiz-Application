@@ -14,9 +14,9 @@ const toggleSidebar = () => {
   <div class="relative">
     <!-- Sidebar -->
     <div :class="isOpen ? 'w-64' : 'w-20'"
-      class="bg-gradient-to-b from-indigo-900 to-purple-800 text-white min-h-screen flex flex-col fixed top-0 left-0 shadow-xl transition-all duration-300">
+      class="bg-gradient-to-b from-indigo-900 to-purple-800 text-white min-h-screen fixed top-0 left-0 shadow-xl transition-all duration-300 z-50 flex flex-col overflow-hidden">
       
-      <!-- Sidebar Header with Stylish Icon -->
+      <!-- Sidebar Header -->
       <div class="flex items-center justify-between p-4 border-b border-gray-700">
         <div class="flex items-center">
           <img src="https://img.icons8.com/ios-filled/50/ffffff/brainstorm-skill.png" alt="Logo" class="w-8 h-8" />
@@ -36,46 +36,65 @@ const toggleSidebar = () => {
       <!-- Sidebar Navigation -->
       <nav class="flex-1 mt-4">
         <ul>
+          <!-- Dashboard Button -->
           <li>
-            <router-link to="/dashboard" class="flex items-center p-4 hover:bg-indigo-700 transition duration-300 rounded-lg">
+            <router-link to="/dashboard"
+              class="flex items-center p-4 hover:bg-indigo-700 transition duration-300 rounded-lg"
+              :class="{ 'bg-indigo-700': $route.path === '/dashboard' }">
               <svg class="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h18M3 10h18M3 15h18"></path>
               </svg>
               <span v-if="isOpen" class="ml-4">Dashboard</span>
             </router-link>
           </li>
+
+          <!-- Reports Button -->
           <li>
-            <a href="#" class="flex items-center p-4 hover:bg-indigo-700 transition duration-300 rounded-lg">
+            <router-link to="/reports"
+              class="flex items-center p-4 hover:bg-indigo-700 transition duration-300 rounded-lg"
+              :class="{ 'bg-indigo-700': $route.path === '/reports' }">
               <svg class="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v12l7-4 7 4V3"></path>
               </svg>
               <span v-if="isOpen" class="ml-4">Reports</span>
-            </a>
+            </router-link>
           </li>
+
+          <!-- Settings Button -->
           <li>
-            <a href="#" class="flex items-center p-4 hover:bg-indigo-700 transition duration-300 rounded-lg">
+            <router-link to="/settings"
+              class="flex items-center p-4 hover:bg-indigo-700 transition duration-300 rounded-lg"
+              :class="{ 'bg-indigo-700': $route.path === '/settings' }">
               <svg class="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2 2 4-4 6 6 8-8"></path>
               </svg>
               <span v-if="isOpen" class="ml-4">Settings</span>
-            </a>
+            </router-link>
           </li>
         </ul>
       </nav>
 
       <!-- Logout Button -->
       <div class="p-4 border-t border-gray-700">
-        <a href="#" class="flex items-center p-4 hover:bg-red-700 transition duration-300 rounded-lg">
+        <button @click="() => router.push('/logout')"
+          class="flex items-center p-4 hover:bg-red-700 transition duration-300 rounded-lg w-full">
           <svg class="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5h6M9 12h6M9 19h6"></path>
           </svg>
           <span v-if="isOpen" class="ml-4">Logout</span>
-        </a>
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Optional custom styles */
+/* Prevent hover effects from breaking layout */
+li {
+  overflow: hidden; /* Prevent child hover scaling from affecting layout */
+}
+
+li:hover {
+  transform: none; /* Disable transform affecting overflow */
+}
 </style>
