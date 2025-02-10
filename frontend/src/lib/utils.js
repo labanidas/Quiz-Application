@@ -1,6 +1,4 @@
 export const generate_result = (quiz_questions, submittedAnswers) => {
-    console.log(submittedAnswers);
-    console.log(quiz_questions);
 
     let totalQuestions = quiz_questions.length;
     let attended = 0;
