@@ -1,10 +1,39 @@
 <script setup>
 import { generate_result } from "@/lib/utils";
 import { useQuizStore } from '@/store/useQuizStore';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 
 const quizStore = useQuizStore();
-const { quiz_questions } = quizStore;
+// const { quiz_questions } = quizStore;
+
+const quiz_questions = [
+  {
+    question: "What is the capital of France?",
+    correct_answer: "Paris",
+    incorrect_answers: ["Lyon", "Marseille", "Nice"]
+  },
+  {
+    question: "What is the largest planet in our solar system?",
+    correct_answer: "Jupiter",
+    incorrect_answers: ["Saturn", "Neptune", "Earth"]
+  },
+  {
+    question: "What year did the Titanic sink?",
+    correct_answer: "1912",
+    incorrect_answers: ["1910", "1914", "1916"]
+  },
+  {
+    question: "Which element has the chemical symbol 'O'?",
+    correct_answer: "Oxygen",
+    incorrect_answers: ["Gold", "Silver", "Iron"]
+  },
+  {
+    question: "Who wrote 'Hamlet'?",
+    correct_answer: "William Shakespeare",
+    incorrect_answers: ["Charles Dickens", "J.K. Rowling", "Leo Tolstoy"]
+  }
+];
+
 
 const result = ref(null);
 const submittedAnswers = ref([]);
