@@ -116,7 +116,7 @@ frontend/
 
 ---
 
-## **Screenshots**
+<!-- ## **Screenshots**
 
 ### **1. Dashboard**
 
@@ -130,7 +130,7 @@ frontend/
 
 ![Result Screenshot](path/to/result-screenshot.png)
 
----
+--- -->
 
 ## **Technologies Used**
 
