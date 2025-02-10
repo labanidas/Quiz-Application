@@ -9,16 +9,13 @@ const { quiz_questions } = quizStore;
 const result = ref(null);
 const submittedAnswers = ref([]);
 
-// Initialize submittedAnswers with the correct number of questions when component mounts
-onMounted(() => {
-  // Initialize the array to have the same length as quiz_questions, filled with null values
-  submittedAnswers.value = new Array(quiz_questions.length).fill(null);
-});
-
 const shuffleOptions = (options) => {
   return options.sort(() => Math.random() - 0.5); // Shuffle options
 };
 
+const handleChange = (index, option) => {
+  submittedAnswers.value[index] = option;
+}
 // Handle form submission
 const handleSubmit = () => {
   result.value = generate_result(quiz_questions, submittedAnswers.value);
@@ -57,7 +54,7 @@ const handleSubmit = () => {
               :key="idx" class="flex items-center space-x-2">
               <input type="radio" :name="'question_' + index" :value="option"
                 class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                @change="submittedAnswers.value[index] = option" />
+                @change= "handleChange(index, option)" />
               <label class="text-gray-700">{{ option }}</label>
             </div>
           </div>
