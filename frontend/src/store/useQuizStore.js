@@ -31,6 +31,6 @@ export const useQuizStore = defineStore('apiStore', () => {
   return {
     quiz_questions,
     isLoadingQuestions,
-    fetchQuestions,
+    fetchQuestions
   };
 });
