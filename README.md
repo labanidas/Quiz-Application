@@ -43,14 +43,26 @@
 ```plaintext
 backend/
 ├── app/
-│   ├── __init__.py
-│   ├── routes.py
-│   ├── models.py
-│   ├── utils.py
-├── .env                    # Environment variables
-├── config.py               # Application configurations
-├── requirements.txt        # Python dependencies
-└── run.py                  # Main entry point for the backend
+│   ├── controllers/                # Controllers handle business logic
+│   │   ├── auth_controller.py      # Authentication-related logic
+│   │   ├── quiz_controller.py      # Quiz fetching logic
+│   │   ├── user_controller.py      # User-related operations
+│   ├── middleware/                 # Middleware functions (authentication, validation, etc.)
+│   │   ├── auth_middleware.py      # Middleware for token verification
+│   ├── models/                     # Database-related logic
+│   │   ├── user_model.py           # User model functions
+│   ├── routes/                     # API route definitions
+│   │   ├── auth_routes.py          # Routes for authentication
+│   │   ├── quiz_routes.py          # Routes for quiz fetching
+│   │   ├── user_routes.py          # Routes for user operations
+│   ├── utils/                      # Utility functions
+│   │   ├── validation.py           # Validation functions (email, password, etc.)
+│   │   ├── response.py             # Response formatting
+│   │   ├── helpers.py              # Miscellaneous helper functions
+├── .env                            # Environment variables
+├── config.py                       # Application configurations
+├── requirements.txt                # Python dependencies
+├── run.py                          # Main entry point for the backend
 ```
 
 ### **Frontend Structure**
