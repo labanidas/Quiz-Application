@@ -1,38 +1,49 @@
 <script setup>
 import { generate_result } from "@/lib/utils";
 import { useQuizStore } from "@/store/useQuizStore";
+import { useRouter } from "vue-router";
 import { ref } from "vue";
 
-const quizStore = useQuizStore();
-// const { quiz_questions } = quizStore;
+const router = useRouter();
+const loading = ref(false);
 
-const quiz_questions = [
-  {
-    question: "What is the capital of France?",
-    correct_answer: "Paris",
-    incorrect_answers: ["Lyon", "Marseille", "Nice"],
-  },
-  {
-    question: "What is the largest planet in our solar system?",
-    correct_answer: "Jupiter",
-    incorrect_answers: ["Saturn", "Neptune", "Earth"],
-  },
-  {
-    question: "What year did the Titanic sink?",
-    correct_answer: "1912",
-    incorrect_answers: ["1910", "1914", "1916"],
-  },
-  {
-    question: "Which element has the chemical symbol 'O'?",
-    correct_answer: "Oxygen",
-    incorrect_answers: ["Gold", "Silver", "Iron"],
-  },
-  {
-    question: "Who wrote 'Hamlet'?",
-    correct_answer: "William Shakespeare",
-    incorrect_answers: ["Charles Dickens", "J.K. Rowling", "Leo Tolstoy"],
-  },
-];
+const navigateToDashboard = () => {
+  loading.value = true; // Start loading
+  setTimeout(() => {
+    router.push("/dashboard"); // Navigate after a short delay
+  }, 1500); // Simulate loading delay
+};
+
+const quizStore = useQuizStore();
+const { quiz_questions } = quizStore;
+
+// const quiz_questions = [
+//   {
+//     question: "What is the capital of France?",
+//     correct_answer: "Paris",
+//     incorrect_answers: ["Lyon", "Marseille", "Nice"],
+//   },
+//   {
+//     question: "What is the largest planet in our solar system?",
+//     correct_answer: "Jupiter",
+//     incorrect_answers: ["Saturn", "Neptune", "Earth"],
+//   },
+//   {
+//     question: "What year did the Titanic sink?",
+//     correct_answer: "1912",
+//     incorrect_answers: ["1910", "1914", "1916"],
+//   },
+//   {
+//     question: "Which element has the chemical symbol 'O'?",
+//     correct_answer: "Oxygen",
+//     incorrect_answers: ["Gold", "Silver", "Iron"],
+//   },
+//   {
+//     question: "Who wrote 'Hamlet'?",
+//     correct_answer: "William Shakespeare",
+//     incorrect_answers: ["Charles Dickens", "J.K. Rowling", "Leo Tolstoy"],
+//   },
+// ];
 
 const result = ref(null);
 const submittedAnswers = ref([]);
@@ -99,11 +110,35 @@ const handleSubmit = () => {
       <!-- Navigate to Dashboard Button -->
       <div class="mt-8 flex justify-center">
         <button
-          @click="$router.push('/dashboard')"
-          class="px-5 py-2.5 bg-gradient-to-r from-purple-500 via-violet-600 to-indigo-700 text-white font-bold rounded-full shadow-md flex items-center gap-2 text-base transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:from-indigo-700 hover:via-purple-600 hover:to-purple-500"
+          @click="navigateToDashboard"
+          :disabled="loading"
+          class="px-5 py-2.5 bg-gradient-to-r from-purple-500 via-violet-600 to-indigo-700 text-white font-bold rounded-full shadow-md flex items-center gap-2 text-base transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:from-indigo-700 hover:via-purple-600 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span class="text-yellow-300 text-lg drop-shadow-md">🔙</span>
-          <span>Back to Dashboard</span>
+          <span v-if="!loading" class="text-yellow-300 text-lg drop-shadow-md"
+            >🔙</span
+          >
+          <svg
+            v-else
+            class="animate-spin h-5 w-5 text-yellow-300"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
+            ></path>
+          </svg>
+          <span>{{ loading ? "Redirecting..." : "Back to Dashboard" }}</span>
         </button>
       </div>
     </div>
