@@ -2,67 +2,80 @@
 import { generate_result } from "@/lib/utils";
 import { useQuizStore } from "@/store/useQuizStore";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const router = useRouter();
 const loading = ref(false);
+const isFetching = ref(true); // Track quiz loading state
 
 const navigateToDashboard = () => {
-  loading.value = true; // Start loading
+  loading.value = true;
   setTimeout(() => {
-    router.push("/dashboard"); // Navigate after a short delay
-  }, 1500); // Simulate loading delay
+    router.push("/dashboard");
+  }, 1500);
 };
 
 const quizStore = useQuizStore();
 const { quiz_questions } = quizStore;
 
-// const quiz_questions = [
-//   {
-//     question: "What is the capital of France?",
-//     correct_answer: "Paris",
-//     incorrect_answers: ["Lyon", "Marseille", "Nice"],
-//   },
-//   {
-//     question: "What is the largest planet in our solar system?",
-//     correct_answer: "Jupiter",
-//     incorrect_answers: ["Saturn", "Neptune", "Earth"],
-//   },
-//   {
-//     question: "What year did the Titanic sink?",
-//     correct_answer: "1912",
-//     incorrect_answers: ["1910", "1914", "1916"],
-//   },
-//   {
-//     question: "Which element has the chemical symbol 'O'?",
-//     correct_answer: "Oxygen",
-//     incorrect_answers: ["Gold", "Silver", "Iron"],
-//   },
-//   {
-//     question: "Who wrote 'Hamlet'?",
-//     correct_answer: "William Shakespeare",
-//     incorrect_answers: ["Charles Dickens", "J.K. Rowling", "Leo Tolstoy"],
-//   },
-// ];
-
 const result = ref(null);
 const submittedAnswers = ref([]);
 
+// Simulate fetching data
+onMounted(() => {
+  setTimeout(() => {
+    isFetching.value = false; // Fake delay to show loader
+  }, 2000);
+});
+
 const shuffleOptions = (options) => {
-  return options.sort(() => Math.random() - 0.5); // Shuffle options
+  return options.sort(() => Math.random() - 0.5);
 };
 
 const handleChange = (index, option) => {
   submittedAnswers.value[index] = option;
 };
-// Handle form submission
+
 const handleSubmit = () => {
   result.value = generate_result(quiz_questions, submittedAnswers.value);
 };
 </script>
 
 <template>
+  <!-- Show Loader While Fetching Quiz Questions -->
+  <div v-if="isFetching" class="flex items-center justify-center py-20">
+    <div class="flex flex-col items-center">
+      <!-- Spinner -->
+      <svg
+        class="animate-spin h-16 w-16 text-purple-600"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
+        ></path>
+      </svg>
+      <!-- Loading Text -->
+      <p class="mt-4 text-lg font-semibold text-gray-700">
+        Loading Quiz Questions...
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
   <div
+    v-else
     class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-indigo-50 to-white px-4"
   >
     <!-- Result Section -->
@@ -198,7 +211,3 @@ const handleSubmit = () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Custom styles for quiz elements */
-</style>

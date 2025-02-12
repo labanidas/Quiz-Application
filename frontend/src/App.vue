@@ -1,27 +1,23 @@
 <script setup>
-// import { useAuthStore } from '@/store/useAuthStore';
-// import { onMounted } from 'vue';
-
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
-
-
-// const authStore = useAuthStore();
-
-// onMounted(() => {
-//   authStore.checkAuth();
-//   console.log(authStore.authUser)
-// });
-
 </script>
 
 <template>
-  <Header />
-  <router-view></router-view> 
-  
-  <Footer />
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <Header />
+
+    <!-- Main Content with dynamic growth -->
+    <div class="flex-grow">
+      <router-view></router-view> 
+    </div>
+
+    <!-- Footer -->
+    <Footer />
+  </div>
 </template>
 
 <style>
-/* Custom styles or scoped styles if needed */
+/* Additional global styles if needed */
 </style>
