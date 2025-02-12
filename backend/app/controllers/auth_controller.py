@@ -86,3 +86,18 @@ def check_auth(user):
 
     user_data = {key: str(value) if isinstance(value, ObjectId) else value for key, value in user.items()}
     return create_response("User Authorized", 200, user_data)
+
+def logout():
+    response = make_response(create_response("Logout successful", 200))
+    
+    # Expire the JWT token by setting max_age to 0
+    response.set_cookie(
+        key='access_token',
+        value='',
+        httponly=True,
+        secure=False,  # Change to True in production with HTTPS
+        samesite="Lax",
+        max_age=0  # Expires immediately
+    )
+
+    return response
