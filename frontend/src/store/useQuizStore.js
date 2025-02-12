@@ -15,7 +15,7 @@ export const useQuizStore = defineStore('apiStore', () => {
   const fetchQuestions = async (data) => {
     isLoadingQuestions.value = true;
     try {
-      const response = await axiosInstance.post('/fetch-questions', data); 
+      const response = await axiosInstance.post('/quiz/fetch-questions', data); 
       quiz_questions.value = response.data.questions;  
       router.push("/quiz") 
     } catch (error) {
