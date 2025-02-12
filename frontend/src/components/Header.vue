@@ -1,12 +1,12 @@
 <script setup>
+import { onMounted } from 'vue';
 import { useAuthStore } from '@/store/useAuthStore';
 const authStore = useAuthStore();
-const authUser = authStore.authUser;
 
-const logout = () => {
-  authStore.authUser = null; 
-  // authStore.checkAuth();  // Optionally trigger checkAuth to reset the state
-}
+onMounted(async() => {
+  await authStore.checkAuth();  
+});
+
 </script>
 
 <template>
@@ -24,14 +24,14 @@ const logout = () => {
       <router-link to="/quiz" class="text-lg hover:text-yellow-400 transition duration-300">Quiz</router-link>
 
       <!-- Show Login/Register if unauthenticated -->
-      <template v-if="!authUser">
+      <template v-if="!authStore.authUser">
         <router-link to="/login" class="text-lg hover:text-yellow-400 transition duration-300">Login</router-link>
         <router-link to="/register" class="text-lg hover:text-yellow-400 transition duration-300">Register</router-link>
       </template>
 
       <!-- Show Logout if authenticated -->
-      <template v-if="authUser">
-        <button @click="logout" class="text-lg hover:text-yellow-400 transition duration-300">Logout</button>
+      <template v-if="authStore.authUser">
+        <button @click="authStore.logout()" class="text-lg hover:text-yellow-400 transition duration-300">Logout</button>
       </template>
     </nav>
   </header>

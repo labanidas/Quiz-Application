@@ -1,22 +1,24 @@
 <script setup>
-import { useAuthStore } from '@/store/useAuthStore';
-import { onMounted } from 'vue';
+// import { useAuthStore } from '@/store/useAuthStore';
+// import { onMounted } from 'vue';
 
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 
 
-const authStore = useAuthStore();
+// const authStore = useAuthStore();
 
-onMounted(() => {
-  authStore.checkAuth();
-});
+// onMounted(() => {
+//   authStore.checkAuth();
+//   console.log(authStore.authUser)
+// });
 
 </script>
 
 <template>
   <Header />
   <router-view></router-view> 
+  
   <Footer />
 </template>
 

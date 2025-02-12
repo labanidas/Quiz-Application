@@ -19,7 +19,7 @@ const routes = [
     component: Register, 
     beforeEnter: async (to, from, next) => {      
       const authStore = useAuthStore();
-      // await authStore.checkAuth();  
+      await authStore.checkAuth();  
       if (authStore.authUser) {
         next('/dashboard'); 
       } else {
@@ -33,7 +33,7 @@ const routes = [
     component: Login, 
     beforeEnter: async (to, from, next) => {  
       const authStore = useAuthStore();
-      // await authStore.checkAuth();  
+      await authStore.checkAuth();  
       if (authStore.authUser) { 
         next('/dashboard'); 
       } else {
@@ -47,7 +47,7 @@ const routes = [
     component: Dashboard, 
     beforeEnter: async (to, from, next) => {
       const authStore = useAuthStore();
-      // await authStore.checkAuth(); // Ensure the auth check is done
+      await authStore.checkAuth(); // Ensure the auth check is done
       if (!authStore.authUser) {
         next('/login'); 
       } else {
