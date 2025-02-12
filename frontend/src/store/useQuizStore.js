@@ -5,7 +5,7 @@ import { axiosInstance } from "../lib/axios";
 import { useToast } from "vue-toast-notification";
 import { useRouter } from "vue-router";
 
-export const useQuizStore = defineStore('apiStore', () => {
+export const useQuizStore = defineStore('quizStore', () => {
   const router = useRouter();
   const toast = useToast();
   const quiz_questions = ref([]); 

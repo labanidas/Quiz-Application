@@ -6,6 +6,8 @@ import Login from '@/pages/Login.vue';
 import Dashboard from '@/pages/Dashboard.vue'; 
 import QuizExam from '@/pages/QuizExam.vue'; 
 import Home from '@/pages/Home.vue'; 
+import Page1 from '@/pages/Page1.vue'; 
+import Page2 from '@/pages/Page2.vue'; 
 
 const routes = [
   {
@@ -19,7 +21,7 @@ const routes = [
     component: Register, 
     beforeEnter: async (to, from, next) => {      
       const authStore = useAuthStore();
-      await authStore.checkAuth();  
+      // await authStore.checkAuth();  
       if (authStore.authUser) {
         next('/dashboard'); 
       } else {
@@ -33,7 +35,7 @@ const routes = [
     component: Login, 
     beforeEnter: async (to, from, next) => {  
       const authStore = useAuthStore();
-      await authStore.checkAuth();  
+      // await authStore.checkAuth();  
       if (authStore.authUser) { 
         next('/dashboard'); 
       } else {
@@ -47,7 +49,7 @@ const routes = [
     component: Dashboard, 
     beforeEnter: async (to, from, next) => {
       const authStore = useAuthStore();
-      await authStore.checkAuth(); // Ensure the auth check is done
+      // await authStore.checkAuth(); // Ensure the auth check is done
       if (!authStore.authUser) {
         next('/login'); 
       } else {
@@ -68,6 +70,16 @@ const routes = [
         next();
       }
     }
+  },
+  {
+    path: '/p1', 
+    name: 'Page1',
+    component: Page1, 
+  },
+  {
+    path: '/p2', 
+    name: 'Page2',
+    component: Page2,
   },
 ];
 

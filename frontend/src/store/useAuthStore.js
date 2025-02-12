@@ -5,7 +5,7 @@ import { axiosInstance } from "../lib/axios";
 import { useToast } from "vue-toast-notification";
 import { useRouter } from "vue-router";
 
-export const useAuthStore = defineStore("apiStore", () => {
+export const useAuthStore = defineStore("authStore", () => {
   const router = useRouter();
   const toast = useToast();
   const isSigningUp = ref(false);
@@ -22,7 +22,6 @@ export const useAuthStore = defineStore("apiStore", () => {
     }
   };
 
-  // Register the user
   const register = async (data) => {
     isSigningUp.value = true;
     try {
@@ -42,12 +41,10 @@ export const useAuthStore = defineStore("apiStore", () => {
     }
   };
 
-  // Log the user in
   const login = async (data) => {
     isLogginIn.value = true;
     try {
       const response = await axiosInstance.post("/auth/login", data);
-
       authUser.value = response.data; // update authUser after login
       toast.success("Login successful", {
         position: "top-right",
@@ -64,7 +61,6 @@ export const useAuthStore = defineStore("apiStore", () => {
     }
   };
 
-  // Logout the user
   const logout = () => {
     authUser.value = null;
     router.push("/login");
