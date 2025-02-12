@@ -15,7 +15,7 @@ export const useAuthStore = defineStore("authStore", () => {
   const checkAuth = async () => {
     try {
       const response = await axiosInstance.get("/auth/auth-check");
-      authUser.value = response.data.data;  
+      authUser.value = response.data.data;
       console.log(response.data.data);
     } catch (error) {
       authUser.value = null;
@@ -61,9 +61,22 @@ export const useAuthStore = defineStore("authStore", () => {
     }
   };
 
-  const logout = () => {
-    // complete code here
-    console.log("hello")
+  const logout = async () => {
+    try {
+      const response = await axiosInstance.delete("/auth/logout");
+      toast.success("Logout successful", {
+        position: "top-right",
+        timeout: 3000,
+      });
+      router.push("/login");
+    } catch (error) {
+      toast.error(error.message || "Something went wrong!", {
+        position: "top-right",
+        timeout: 3000,
+      });
+    } finally {
+      console.log("logged out");
+    }
   };
 
   return {

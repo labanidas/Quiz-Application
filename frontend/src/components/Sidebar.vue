@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/store/useAuthStore';
+const authStore = useAuthStore();
 
 const isOpen = ref(true);
 const router = useRouter();
@@ -76,7 +78,7 @@ const toggleSidebar = () => {
 
       <!-- Logout Button -->
       <div class="p-4 border-t border-gray-700">
-        <button @click="() => router.push('/logout')"
+        <button @click="authStore.logout()"
           class="flex items-center p-4 hover:bg-red-700 transition duration-300 rounded-lg w-full">
           <svg class="w-6 h-6 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5h6M9 12h6M9 19h6"></path>
