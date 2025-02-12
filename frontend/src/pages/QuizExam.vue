@@ -51,55 +51,68 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-indigo-50 to-white px-4">
+  <div
+    class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-indigo-50 to-white px-4"
+  >
     <!-- Result Section -->
-<div
-  v-if="result"
-  class="p-8 rounded-3xl shadow-xl w-full max-w-3xl bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 border border-gray-400"
->
-  <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">
-    🎉 Quiz Summary
-  </h2>
+    <div
+      v-if="result"
+      class="p-8 rounded-3xl shadow-xl w-full max-w-3xl bg-gradient-to-br from-purple-100 via-purple-200 to-purple-300 border border-purple-400"
+    >
+      <h2 class="text-3xl font-extrabold text-center text-purple-900 mb-8">
+        🎉 Quiz Summary
+      </h2>
 
-  <!-- Display Result -->
-  <div class="space-y-6 text-lg text-center">
-    <div class="font-semibold text-gray-800">
-      📌 Total Questions: <span class="text-gray-900 font-bold">{{ result.total_questions }}</span>
-    </div>
-    <div class="font-semibold text-gray-800">
-      ✅ Attended: <span class="text-gray-900 font-bold">{{ result.attended }}</span>
-    </div>
-    <div class="font-semibold text-gray-800">
-      📊 Percentage: <span class="text-gray-900 font-bold">{{ result.percentage }}%</span>
-    </div>
-    <div class="font-semibold text-gray-800">
-      🎯 Remark:
-      <span
-        :class="{
-          'text-green-700 font-bold bg-green-100 px-3 py-1 rounded-lg': result.remark === 'pass',
-          'text-red-700 font-bold bg-red-100 px-3 py-1 rounded-lg': result.remark === 'fail'
-        }"
-      >
-        {{ result.remark.toUpperCase() }}
-      </span>
-    </div>
-  </div>
+      <!-- Display Result -->
+      <div class="space-y-6 text-lg text-center">
+        <div class="font-semibold text-purple-800">
+          📌 Total Questions:
+          <span class="text-purple-900 font-bold">{{
+            result.total_questions
+          }}</span>
+        </div>
+        <div class="font-semibold text-purple-800">
+          ✅ Attended:
+          <span class="text-purple-900 font-bold">{{ result.attended }}</span>
+        </div>
+        <div class="font-semibold text-purple-800">
+          📊 Percentage:
+          <span class="text-purple-900 font-bold"
+            >{{ result.percentage }}%</span
+          >
+        </div>
+        <div class="font-semibold text-purple-800">
+          🎯 Remark:
+          <span
+            :class="{
+              'text-green-800 font-bold bg-green-200 px-3 py-1 rounded-lg':
+                result.remark === 'pass',
+              'text-red-800 font-bold bg-red-200 px-3 py-1 rounded-lg':
+                result.remark === 'fail',
+            }"
+          >
+            {{ result.remark.toUpperCase() }}
+          </span>
+        </div>
+      </div>
 
-  <!-- Navigate to Dashboard Button -->
-  <div class="mt-8 flex justify-center">
-    <button
-  @click="$router.push('/dashboard')"
-  class="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-800 text-white font-bold rounded-lg shadow-lg hover:scale-105 hover:shadow-2xl transform transition-all duration-300 ease-in-out"
->
-  🔙 Back to Dashboard
-</button>
-  </div>
-</div>
-
+      <!-- Navigate to Dashboard Button -->
+      <div class="mt-8 flex justify-center">
+        <button
+          @click="$router.push('/dashboard')"
+          class="px-5 py-2.5 bg-gradient-to-r from-purple-500 via-violet-600 to-indigo-700 text-white font-bold rounded-full shadow-md flex items-center gap-2 text-base transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:from-indigo-700 hover:via-purple-600 hover:to-purple-500"
+        >
+          <span class="text-yellow-300 text-lg drop-shadow-md">🔙</span>
+          <span>Back to Dashboard</span>
+        </button>
+      </div>
+    </div>
 
     <!-- Quiz Form -->
     <div v-else class="bg-white p-8 rounded-3xl shadow-lg w-full max-w-3xl">
-      <h2 class="text-3xl font-extrabold text-center text-indigo-900 mb-8">Quiz Time</h2>
+      <h2 class="text-3xl font-extrabold text-center text-indigo-900 mb-8">
+        Quiz Time
+      </h2>
 
       <form @submit.prevent="handleSubmit" class="space-y-8">
         <!-- Loop through each quiz question -->
@@ -109,12 +122,17 @@ const handleSubmit = () => {
           class="p-4 border border-gray-200 rounded-2xl shadow-md"
         >
           <!-- Question -->
-          <div class="text-lg md:text-xl font-bold text-gray-800 mb-4">{{ question.question }}</div>
+          <div class="text-lg md:text-xl font-bold text-gray-800 mb-4">
+            {{ question.question }}
+          </div>
 
           <!-- Options -->
           <div class="space-y-2">
             <div
-              v-for="(option, idx) in shuffleOptions([question.correct_answer, ...question.incorrect_answers])"
+              v-for="(option, idx) in shuffleOptions([
+                question.correct_answer,
+                ...question.incorrect_answers,
+              ])"
               :key="idx"
               class="flex items-center space-x-3"
             >
@@ -125,7 +143,9 @@ const handleSubmit = () => {
                 class="h-5 w-5 border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 @change="handleChange(index, option)"
               />
-              <label class="text-gray-700 font-medium cursor-pointer">{{ option }}</label>
+              <label class="text-gray-700 font-medium cursor-pointer">{{
+                option
+              }}</label>
             </div>
           </div>
         </div>
