@@ -1,12 +1,17 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
 const authStore = useAuthStore();
 
-onMounted(async() => {
-  await authStore.checkAuth();  
-});
+const currentPath = computed(() => route.path);
 
+onMounted(async() => {
+  await authStore.checkAuth();
+});
 </script>
 
 <template>
@@ -19,13 +24,13 @@ onMounted(async() => {
 
     <!-- Navigation Menu -->
     <nav class="flex space-x-6">
-      <router-link to="/" class="text-lg hover:text-yellow-400 transition duration-300">Home</router-link>
-      <router-link to="/dashboard" class="text-lg hover:text-yellow-400 transition duration-300">Dashboard</router-link>
+      <router-link to="/" class="text-lg hover:text-yellow-400 transition duration-300" :class="{'opacity-50 pointer-events-none': currentPath === '/'}">Home</router-link>
+      <router-link to="/dashboard" class="text-lg hover:text-yellow-400 transition duration-300" v-if="currentPath !== '/dashboard'">Dashboard</router-link>
 
       <!-- Show Login/Register if unauthenticated -->
       <template v-if="!authStore.authUser">
-        <router-link to="/login" class="text-lg hover:text-yellow-400 transition duration-300">Login</router-link>
-        <router-link to="/register" class="text-lg hover:text-yellow-400 transition duration-300">Register</router-link>
+        <router-link to="/login" class="text-lg hover:text-yellow-400 transition duration-300" v-if="currentPath !== '/login'">Login</router-link>
+        <router-link to="/register" class="text-lg hover:text-yellow-400 transition duration-300" v-if="currentPath !== '/register'">Register</router-link>
       </template>
 
     </nav>
