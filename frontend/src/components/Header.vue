@@ -21,7 +21,6 @@ onMounted(async() => {
     <nav class="flex space-x-6">
       <router-link to="/" class="text-lg hover:text-yellow-400 transition duration-300">Home</router-link>
       <router-link to="/dashboard" class="text-lg hover:text-yellow-400 transition duration-300">Dashboard</router-link>
-      <router-link to="/quiz" class="text-lg hover:text-yellow-400 transition duration-300">Quiz</router-link>
 
       <!-- Show Login/Register if unauthenticated -->
       <template v-if="!authStore.authUser">
@@ -29,10 +28,6 @@ onMounted(async() => {
         <router-link to="/register" class="text-lg hover:text-yellow-400 transition duration-300">Register</router-link>
       </template>
 
-      <!-- Show Logout if authenticated -->
-      <template v-if="authStore.authUser">
-        <button @click="authStore.logout()" class="text-lg hover:text-yellow-400 transition duration-300">Logout</button>
-      </template>
     </nav>
   </header>
 </template>
