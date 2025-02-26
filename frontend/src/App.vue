@@ -20,5 +20,5 @@ import Footer from './components/Footer.vue'
 
 
 <style>
-/* Additional global styles if needed */
+ /* Additional global styles if needed */
 </style>
